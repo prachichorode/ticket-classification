@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Ticket - AI Support
+{% endblock %}
+
+{% block page_heading %}
+Create Support Ticket
+{% endblock %}
+
+{% block content %}
+
+<div class="form-layout">
+
+    <div class="form-card">
+
+        <div class="card-title">
+
+            <div>
+
+                <h2>
+                    Report Your Problem
+                </h2>
+
+                <p>
+                    Describe your issue clearly.
+                    AI will predict category and priority.
+                </p>
+
+            </div>
+
+            <div class="large-icon">
+                🎫
+            </div>
+
+        </div>
+
+
+        <form method="POST">
+
+            <label>
+                Ticket Subject
+            </label>
+
+            <input
+                type="text"
+                name="subject"
+                placeholder="Example: Unable to login"
+                required
+            >
+
+
+            <label>
+                Problem Description
+            </label>
+
+            <textarea
+                name="description"
+                rows="8"
+                placeholder="Describe your problem in detail..."
+                required
+            ></textarea>
+
+
+            <div class="info-box">
+
+                <strong>
+                    🤖 AI Prediction
+                </strong>
+
+                <p>
+                    The system will automatically classify
+                    your ticket category and priority
+                    using the machine learning model.
+                </p>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                🚀 Submit Ticket
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="side-info-card">
+
+        <h3>
+            How it works
+        </h3>
+
+        <div class="step">
+
+            <span>
+                1
+            </span>
+
+            <div>
+
+                <strong>
+                    Submit Problem
+                </strong>
+
+                <p>
+                    Enter your issue.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <span>
+                2
+            </span>
+
+            <div>
+
+                <strong>
+                    AI Classification
+                </strong>
+
+                <p>
+                    AI predicts category.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <span>
+                3
+            </span>
+
+            <div>
+
+                <strong>
+                    Priority Prediction
+                </strong>
+
+                <p>
+                    AI predicts urgency.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <span>
+                4
+            </span>
+
+            <div>
+
+                <strong>
+                    Support Team
+                </strong>
+
+                <p>
+                    Staff handles the ticket.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

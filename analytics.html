@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket Analytics
+{% endblock %}
+
+{% block page_heading %}
+Ticket Analytics
+{% endblock %}
+
+{% block content %}
+
+<div class="section-header">
+
+    <div>
+        <h2>Support Analytics</h2>
+
+        <p>
+            Analyze tickets by category, priority, status and daily trend.
+        </p>
+    </div>
+
+</div>
+
+
+<div class="analytics-grid">
+
+
+    <!-- ================= CATEGORY ================= -->
+
+    <div class="chart-card">
+
+        <h3>Tickets by Category</h3>
+
+        {% if category_stats %}
+
+            {% for item in category_stats %}
+
+                <div class="bar-row">
+
+                    <div class="bar-label">
+
+                        <span>
+                            {{ item.category_name }}
+                        </span>
+
+                        <strong>
+                            {{ item.total }}
+                        </strong>
+
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            class="bar-fill"
+                            style="width: 70%;"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No category data available.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================= PRIORITY ================= -->
+
+    <div class="chart-card">
+
+        <h3>Tickets by Priority</h3>
+
+        {% if priority_stats %}
+
+            {% for item in priority_stats %}
+
+                <div class="bar-row">
+
+                    <div class="bar-label">
+
+                        <span>
+                            {{ item.priority }}
+                        </span>
+
+                        <strong>
+                            {{ item.total }}
+                        </strong>
+
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            class="bar-fill"
+                            style="width: 70%;"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No priority data available.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================= STATUS ================= -->
+
+    <div class="chart-card">
+
+        <h3>Tickets by Status</h3>
+
+        {% if status_stats %}
+
+            {% for item in status_stats %}
+
+                <div class="bar-row">
+
+                    <div class="bar-label">
+
+                        <span>
+                            {{ item.status }}
+                        </span>
+
+                        <strong>
+                            {{ item.total }}
+                        </strong>
+
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            class="bar-fill"
+                            style="width: 70%;"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No status data available.</p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================= DAILY ================= -->
+
+    <div class="chart-card">
+
+        <h3>Daily Ticket Trend</h3>
+
+        {% if daily_stats %}
+
+            {% for item in daily_stats %}
+
+                <div class="bar-row">
+
+                    <div class="bar-label">
+
+                        <span>
+                            {{ item.ticket_date }}
+                        </span>
+
+                        <strong>
+                            {{ item.total }}
+                        </strong>
+
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            class="bar-fill"
+                            style="width: 70%;"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No daily ticket data available.</p>
+
+        {% endif %}
+
+    </div>
+
+
+</div>
+
+{% endblock %}

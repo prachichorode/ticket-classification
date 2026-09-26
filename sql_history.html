@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}
+SQL History
+{% endblock %}
+
+{% block page_heading %}
+SQL Command History
+{% endblock %}
+
+{% block content %}
+
+<div class="section-header">
+
+    <div>
+
+        <h2>
+            Executed SQL Commands
+        </h2>
+
+        <p>
+            Admin database activity is stored here.
+        </p>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('database_console') }}"
+        class="primary-btn"
+    >
+        💻 SQL Console
+    </a>
+
+</div>
+
+
+<div class="table-card">
+
+    {% if history %}
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        ID
+                    </th>
+
+                    <th>
+                        User
+                    </th>
+
+                    <th>
+                        SQL Command
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Executed At
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in history %}
+
+                <tr>
+
+                    <td>
+                        #{{ item.command_id }}
+                    </td>
+
+                    <td>
+                        {{ item.username }}
+                    </td>
+
+                    <td>
+
+                        <code>
+                            {{ item.sql_command }}
+                        </code>
+
+                    </td>
+
+                    <td>
+
+                        {% if item.execution_status == "SUCCESS" %}
+
+                        <span class="badge status-resolved">
+                            SUCCESS
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge priority-critical">
+                            FAILED
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ item.executed_at }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div>
+            🕘
+        </div>
+
+        <h3>
+            No SQL history
+        </h3>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

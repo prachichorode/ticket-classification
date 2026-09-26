@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login - AI Support System
+{% endblock %}
+
+{% block auth_content %}
+
+<div class="auth-page ticket-login-bg">
+
+    <div class="auth-card">
+
+        <div class="auth-logo">
+            🎫
+        </div>
+
+        <h1>
+            AI Support System
+        </h1>
+
+        <p class="auth-subtitle">
+            Customer Support & Ticket Management
+        </p>
+
+
+        {% with messages = get_flashed_messages(
+            with_categories=true
+        ) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <form method="POST">
+
+            <label>
+                Username
+            </label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                required
+            >
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="primary-btn full-width"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <p class="auth-footer">
+
+            Don't have an account?
+
+            <a href="{{ url_for('register') }}">
+                Register
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

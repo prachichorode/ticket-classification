@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+        AI Support System
+        {% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+{% if session.get("user_id") %}
+
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🤖
+            </div>
+
+            <div>
+
+                <h2>
+                    AI Support
+                </h2>
+
+                <span>
+                    Ticket Management
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="user-box">
+
+            <div class="user-avatar">
+                {{ session.get("full_name", "U")[0]|upper }}
+            </div>
+
+            <div>
+
+                <strong>
+                    {{ session.get("full_name") }}
+                </strong>
+
+                <small>
+                    {{ session.get("role") }}
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="{{ url_for('dashboard') }}">
+                🏠 Dashboard
+            </a>
+
+
+            {% if session.get("role") == "Customer" %}
+
+            <a href="{{ url_for('create_ticket') }}">
+                ➕ Create Ticket
+            </a>
+
+            <a href="{{ url_for('my_tickets') }}">
+                🎫 My Tickets
+            </a>
+
+            {% endif %}
+
+
+            {% if session.get("role") != "Customer" %}
+
+            <a href="{{ url_for('all_tickets') }}">
+                📋 All Tickets
+            </a>
+
+            <a href="{{ url_for('analytics') }}">
+                📊 Analytics
+            </a>
+
+            {% endif %}
+
+
+            <a href="{{ url_for('chatbot') }}">
+                🤖 AI Assistant
+            </a>
+
+
+            {% if session.get("role") == "Admin" %}
+
+            <div class="nav-section">
+                ADMIN
+            </div>
+
+            <a href="{{ url_for('database_console') }}">
+                💻 SQL Console
+            </a>
+
+            <a href="{{ url_for('sql_history') }}">
+                🕘 SQL History
+            </a>
+
+            {% endif %}
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout-btn"
+            >
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    {% block page_heading %}
+                    Dashboard
+                    {% endblock %}
+                </h1>
+
+                <p>
+                    AI-Based Customer Support & Ticket Management
+                </p>
+
+            </div>
+
+            <div class="topbar-role">
+
+                {{ session.get("role") }}
+
+            </div>
+
+        </header>
+
+
+        <section class="content-area">
+
+            {% with messages = get_flashed_messages(
+                with_categories=true
+            ) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                    <div class="alert alert-{{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            {% block content %}
+
+            {% endblock %}
+
+        </section>
+
+    </main>
+
+</div>
+
+
+{% else %}
+
+{% block auth_content %}
+
+{% endblock %}
+
+{% endif %}
+
+
+</body>
+
+</html>

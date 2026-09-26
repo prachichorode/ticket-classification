@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block title %}
+SQL Console
+{% endblock %}
+
+{% block page_heading %}
+SQL Command Console
+{% endblock %}
+
+{% block content %}
+
+<div class="console-card">
+
+    <div class="console-header">
+
+        <div>
+
+            <span class="eyebrow">
+                ADMIN DATABASE ACCESS
+            </span>
+
+            <h2>
+                SQL Command Console
+            </h2>
+
+            <p>
+                Execute SQL commands directly on
+                ticket_system_v2.
+            </p>
+
+        </div>
+
+        <div class="large-icon">
+            💻
+        </div>
+
+    </div>
+
+
+    <form method="POST">
+
+        <label>
+            SQL Command
+        </label>
+
+        <textarea
+            name="sql_command"
+            class="sql-editor"
+            rows="8"
+            placeholder="SELECT * FROM users;"
+        >{{ command }}</textarea>
+
+
+        <div class="sql-examples">
+
+            <button
+                type="button"
+                onclick="setSQL('SELECT * FROM users;')"
+            >
+                SELECT Users
+            </button>
+
+            <button
+                type="button"
+                onclick="setSQL('SELECT * FROM tickets;')"
+            >
+                SELECT Tickets
+            </button>
+
+            <button
+                type="button"
+                onclick="setSQL('SELECT * FROM categories;')"
+            >
+                SELECT Categories
+            </button>
+
+            <button
+                type="button"
+                onclick="setSQL('SELECT t.ticket_id, u.username, c.category_name, t.subject, t.priority, t.status FROM tickets t JOIN users u ON t.user_id = u.user_id LEFT JOIN categories c ON t.category_id = c.category_id;')"
+            >
+                JOIN Query
+            </button>
+
+            <button
+                type="button"
+                onclick="setSQL('CALL GetTicketStatistics();')"
+            >
+                Procedure
+            </button>
+
+            <button
+                type="button"
+                onclick="setSQL('SHOW TABLES;')"
+            >
+                SHOW TABLES
+            </button>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="primary-btn"
+        >
+            ▶ Execute SQL
+        </button>
+
+    </form>
+
+</div>
+
+
+{% if result %}
+
+<div class="table-card">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Query Result
+            </h2>
+
+            <p>
+                {{ row_count }} row(s) returned
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    {% for column in columns %}
+
+                    <th>
+                        {{ column }}
+                    </th>
+
+                    {% endfor %}
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for row in result %}
+
+                <tr>
+
+                    {% for column in columns %}
+
+                    <td>
+                        {{ row[column] }}
+                    </td>
+
+                    {% endfor %}
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% elif row_count is not none %}
+
+<div class="info-box">
+
+    <strong>
+        Query executed.
+    </strong>
+
+    <p>
+        Affected rows: {{ row_count }}
+    </p>
+
+</div>
+
+{% endif %}
+
+
+<script>
+
+function setSQL(sql) {
+
+    document.querySelector(
+        ".sql-editor"
+    ).value = sql;
+
+}
+
+</script>
+
+{% endblock %}

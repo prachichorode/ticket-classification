@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}
+All Tickets - AI Support
+{% endblock %}
+
+{% block page_heading %}
+All Tickets
+{% endblock %}
+
+{% block content %}
+
+<div class="section-header">
+
+    <div>
+        <h2>Ticket Management</h2>
+
+        <p>
+            View, update and manage customer support tickets.
+        </p>
+    </div>
+
+</div>
+
+
+<div class="table-card">
+
+    {% if tickets %}
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Category</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for ticket in tickets %}
+
+                <tr>
+
+                    <!-- TICKET ID -->
+                    <td>
+                        <strong>
+                            #{{ ticket.ticket_id }}
+                        </strong>
+                    </td>
+
+
+                    <!-- CUSTOMER -->
+                    <td>
+                        <strong>
+                            {{ ticket.full_name }}
+                        </strong>
+                    </td>
+
+
+                    <!-- EMAIL -->
+                    <td>
+                        {{ ticket.email }}
+                    </td>
+
+
+                    <!-- SUBJECT -->
+                    <td>
+
+                        <strong>
+                            {{ ticket.subject }}
+                        </strong>
+
+                        <br>
+
+                        <small>
+                            {{ ticket.description[:70] }}
+
+                            {% if ticket.description|length > 70 %}
+                                ...
+                            {% endif %}
+                        </small>
+
+                    </td>
+
+
+                    <!-- CATEGORY -->
+                    <td>
+                        {{ ticket.category_name or "N/A" }}
+                    </td>
+
+
+                    <!-- PRIORITY -->
+                    <td>
+
+                        <span class="badge priority-{{ ticket.priority|lower }}">
+                            {{ ticket.priority }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- STATUS -->
+                    <td>
+
+                        <span class="badge status-{{ ticket.status|lower|replace(' ', '-') }}">
+                            {{ ticket.status }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- CREATED DATE -->
+                    <td>
+                        {{ ticket.created_at }}
+                    </td>
+
+
+                    <!-- ACTIONS -->
+                    <td>
+
+                        <div class="ticket-actions">
+
+                            <!-- UPDATE -->
+                            <a
+                                href="{{ url_for('update_ticket', ticket_id=ticket.ticket_id) }}"
+                                class="action-btn update-btn"
+                            >
+                                ✏️ Update
+                            </a>
+
+
+                            <!-- DELETE -->
+                            {% if session.get("role") == "Admin" %}
+
+                            <form
+                                method="POST"
+                                action="{{ url_for('delete_ticket', ticket_id=ticket.ticket_id) }}"
+                                onsubmit="return confirm('Are you sure you want to delete Ticket #{{ ticket.ticket_id }}?');"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="action-btn delete-btn"
+                                >
+                                    🗑️ Delete
+                                </button>
+
+                            </form>
+
+                            {% endif %}
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+    <!-- NO TICKETS -->
+
+    <div class="empty-state">
+
+        <div>
+            🎫
+        </div>
+
+        <h3>
+            No tickets found
+        </h3>
+
+        <p>
+            There are currently no support tickets.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}n

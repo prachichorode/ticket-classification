@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Tickets
+{% endblock %}
+
+{% block page_heading %}
+My Tickets
+{% endblock %}
+
+{% block content %}
+
+<div class="section-header">
+
+    <div>
+
+        <h2>
+            Your Support Tickets
+        </h2>
+
+        <p>
+            Track the status of your reported issues.
+        </p>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('create_ticket') }}"
+        class="primary-btn"
+    >
+        ➕ New Ticket
+    </a>
+
+</div>
+
+
+<div class="table-card">
+
+    {% if tickets %}
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        ID
+                    </th>
+
+                    <th>
+                        Subject
+                    </th>
+
+                    <th>
+                        Category
+                    </th>
+
+                    <th>
+                        Priority
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Created
+                    </th>
+
+                    <th>
+                        Updated
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for ticket in tickets %}
+
+                <tr>
+
+                    <td>
+                        #{{ ticket.ticket_id }}
+                    </td>
+
+                    <td>
+
+                        <strong>
+                            {{ ticket.subject }}
+                        </strong>
+
+                        <small class="table-description">
+                            {{ ticket.description[:80] }}
+                        </small>
+
+                    </td>
+
+                    <td>
+                        {{ ticket.category_name or "N/A" }}
+                    </td>
+
+                    <td>
+
+                        <span class="badge priority-{{ ticket.priority|lower }}">
+                            {{ ticket.priority }}
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <span class="badge status-{{ ticket.status|lower|replace(' ', '-') }}">
+                            {{ ticket.status }}
+                        </span>
+
+                    </td>
+
+                    <td>
+                        {{ ticket.created_at }}
+                    </td>
+
+                    <td>
+                        {{ ticket.updated_at }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div>
+            🎫
+        </div>
+
+        <h3>
+            No tickets found
+        </h3>
+
+        <p>
+            Create your first support ticket.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

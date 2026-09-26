@@ -1,0 +1,556 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard - AI Support
+{% endblock %}
+
+{% block page_heading %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================
+     WELCOME SECTION
+========================================= -->
+
+<div class="welcome-card">
+
+    <div>
+
+        <span class="eyebrow">
+            AI-POWERED SUPPORT
+        </span>
+
+        <h2>
+            Welcome, {{ session.get("full_name", "User") }} 👋
+        </h2>
+
+        <p>
+            Manage support tickets, monitor issues,
+            and use AI-powered ticket classification.
+        </p>
+
+    </div>
+
+    <div class="welcome-icon">
+        🤖
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     STATISTICS
+========================================= -->
+
+<div class="stats-grid">
+
+    <!-- TOTAL -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🎫
+        </div>
+
+        <div>
+
+            <span>
+                Total Tickets
+            </span>
+
+            <h2>
+                {{ stats.total or 0 }}
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- OPEN -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🟢
+        </div>
+
+        <div>
+
+            <span>
+                Open
+            </span>
+
+            <h2>
+                {{ stats.open_count or 0 }}
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- IN PROGRESS -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🔄
+        </div>
+
+        <div>
+
+            <span>
+                In Progress
+            </span>
+
+            <h2>
+                {{ stats.progress_count or 0 }}
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESOLVED -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            ✅
+        </div>
+
+        <div>
+
+            <span>
+                Resolved
+            </span>
+
+            <h2>
+                {{ stats.resolved_count or 0 }}
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- CRITICAL -->
+
+    <div class="stat-card danger-stat">
+
+        <div class="stat-icon">
+            🚨
+        </div>
+
+        <div>
+
+            <span>
+                Critical
+            </span>
+
+            <h2>
+                {{ stats.critical_count or 0 }}
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     QUICK ACTIONS
+========================================= -->
+
+<div class="section-header">
+
+    <div>
+
+        <h2>
+            Quick Actions
+        </h2>
+
+        <p>
+            Frequently used features
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="quick-grid">
+
+
+    <!-- =====================================
+         CUSTOMER OPTIONS
+    ====================================== -->
+
+    {% if session.get("role") == "Customer" %}
+
+        <!-- CREATE TICKET -->
+
+        <a
+            href="{{ url_for('create_ticket') }}"
+            class="quick-card"
+        >
+
+            <span class="quick-icon">
+                ➕
+            </span>
+
+            <div>
+
+                <h3>
+                    Create Ticket
+                </h3>
+
+                <p>
+                    Report your IT problem
+                </p>
+
+            </div>
+
+        </a>
+
+
+        <!-- MY TICKETS -->
+
+        <a
+            href="{{ url_for('my_tickets') }}"
+            class="quick-card"
+        >
+
+            <span class="quick-icon">
+                🎫
+            </span>
+
+            <div>
+
+                <h3>
+                    My Tickets
+                </h3>
+
+                <p>
+                    Track your support requests
+                </p>
+
+            </div>
+
+        </a>
+
+    {% endif %}
+
+
+
+    <!-- =====================================
+         STAFF OPTIONS
+    ====================================== -->
+
+    {% if session.get("role") != "Customer" %}
+
+        <!-- MANAGE TICKETS -->
+
+        <a
+            href="{{ url_for('all_tickets') }}"
+            class="quick-card"
+        >
+
+            <span class="quick-icon">
+                📋
+            </span>
+
+            <div>
+
+                <h3>
+                    Manage Tickets
+                </h3>
+
+                <p>
+                    View and update support tickets
+                </p>
+
+            </div>
+
+        </a>
+
+
+        <!-- ANALYTICS -->
+
+        <a
+            href="{{ url_for('analytics') }}"
+            class="quick-card"
+        >
+
+            <span class="quick-icon">
+                📊
+            </span>
+
+            <div>
+
+                <h3>
+                    Analytics
+                </h3>
+
+                <p>
+                    Analyze support ticket data
+                </p>
+
+            </div>
+
+        </a>
+
+    {% endif %}
+
+
+
+    <!-- =====================================
+         AI CHATBOT
+    ====================================== -->
+
+    <a
+        href="{{ url_for('chatbot') }}"
+        class="quick-card chatbot-quick-card"
+    >
+
+        <span class="quick-icon">
+            🤖
+        </span>
+
+        <div>
+
+            <h3>
+                AI Assistant
+            </h3>
+
+            <p>
+                Get support guidance
+            </p>
+
+        </div>
+
+    </a>
+
+
+
+    <!-- =====================================
+         ADMIN SQL CONSOLE
+    ====================================== -->
+
+    {% if session.get("role") == "Admin" %}
+
+        <a
+            href="{{ url_for('database_console') }}"
+            class="quick-card"
+        >
+
+            <span class="quick-icon">
+                💻
+            </span>
+
+            <div>
+
+                <h3>
+                    SQL Console
+                </h3>
+
+                <p>
+                    Execute database commands
+                </p>
+
+            </div>
+
+        </a>
+
+
+        <!-- SQL HISTORY -->
+
+        <a
+            href="{{ url_for('sql_history') }}"
+            class="quick-card"
+        >
+
+            <span class="quick-icon">
+                📝
+            </span>
+
+            <div>
+
+                <h3>
+                    SQL History
+                </h3>
+
+                <p>
+                    View executed SQL commands
+                </p>
+
+            </div>
+
+        </a>
+
+    {% endif %}
+
+</div>
+
+
+
+<!-- =========================================
+     RECENT TICKETS
+========================================= -->
+
+<div class="section-header">
+
+    <div>
+
+        <h2>
+            Recent Tickets
+        </h2>
+
+        <p>
+            Latest support requests
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="table-card">
+
+    {% if recent_tickets %}
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Subject
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Priority
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for ticket in recent_tickets %}
+
+                        <tr>
+
+                            <!-- ID -->
+
+                            <td>
+                                #{{ ticket.ticket_id }}
+                            </td>
+
+
+                            <!-- SUBJECT -->
+
+                            <td>
+                                {{ ticket.subject }}
+                            </td>
+
+
+                            <!-- CATEGORY -->
+
+                            <td>
+                                {{ ticket.category_name or "N/A" }}
+                            </td>
+
+
+                            <!-- PRIORITY -->
+
+                            <td>
+
+                                <span
+                                    class="badge priority-{{ ticket.priority|lower }}"
+                                >
+                                    {{ ticket.priority }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                <span
+                                    class="badge status-{{ ticket.status|lower|replace(' ', '-') }}"
+                                >
+                                    {{ ticket.status }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- DATE -->
+
+                            <td>
+                                {{ ticket.created_at }}
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <div>
+                🎫
+            </div>
+
+            <h3>
+                No tickets yet
+            </h3>
+
+            <p>
+                Tickets will appear here when created.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

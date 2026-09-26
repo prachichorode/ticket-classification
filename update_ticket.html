@@ -1,0 +1,489 @@
+{% extends "base.html" %}
+
+{% block title %}
+Update Ticket - AI Support
+{% endblock %}
+
+{% block page_heading %}
+Update Ticket
+{% endblock %}
+
+{% block content %}
+
+
+<div class="section-header">
+
+    <div>
+
+        <h2>
+            Update Ticket #{{ ticket.ticket_id }}
+        </h2>
+
+        <p>
+            Update ticket status, priority and view ticket history.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div
+    style="
+    display:grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap:24px;
+    "
+>
+
+
+    <!-- ================================================= -->
+    <!-- TICKET DETAILS -->
+    <!-- ================================================= -->
+
+    <div class="chart-card">
+
+        <h3>
+            Ticket Details
+        </h3>
+
+
+        <div style="margin-top:20px;">
+
+            <p>
+                <strong>Ticket ID:</strong>
+                #{{ ticket.ticket_id }}
+            </p>
+
+            <p>
+                <strong>Customer:</strong>
+                {{ ticket.full_name }}
+            </p>
+
+            <p>
+                <strong>Username:</strong>
+                {{ ticket.username }}
+            </p>
+
+            <p>
+                <strong>Category:</strong>
+                {{ ticket.category_name or "N/A" }}
+            </p>
+
+            <p>
+                <strong>Subject:</strong>
+                {{ ticket.subject }}
+            </p>
+
+
+            <div style="margin-top:20px;">
+
+                <strong>
+                    Description
+                </strong>
+
+                <div
+                    style="
+                    margin-top:8px;
+                    padding:15px;
+                    background:#f5f7fb;
+                    border-radius:10px;
+                    "
+                >
+
+                    {{ ticket.description }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- UPDATE FORM -->
+    <!-- ================================================= -->
+
+    <div class="chart-card">
+
+        <h3>
+            Update Ticket
+        </h3>
+
+
+        <form
+            method="POST"
+            style="margin-top:20px;"
+        >
+
+
+            <!-- STATUS -->
+
+            <div
+                style="
+                margin-bottom:18px;
+                "
+            >
+
+                <label
+                    for="status"
+                    style="
+                    display:block;
+                    margin-bottom:7px;
+                    font-weight:600;
+                    "
+                >
+
+                    Ticket Status
+
+                </label>
+
+
+                <select
+                    id="status"
+                    name="status"
+                    required
+                    style="
+                    width:100%;
+                    padding:12px;
+                    border:1px solid #d5dbe7;
+                    border-radius:8px;
+                    "
+                >
+
+                    <option
+                        value="Open"
+                        {% if ticket.status == "Open" %}
+                        selected
+                        {% endif %}
+                    >
+                        Open
+                    </option>
+
+
+                    <option
+                        value="In Progress"
+                        {% if ticket.status == "In Progress" %}
+                        selected
+                        {% endif %}
+                    >
+                        In Progress
+                    </option>
+
+
+                    <option
+                        value="Resolved"
+                        {% if ticket.status == "Resolved" %}
+                        selected
+                        {% endif %}
+                    >
+                        Resolved
+                    </option>
+
+
+                    <option
+                        value="Closed"
+                        {% if ticket.status == "Closed" %}
+                        selected
+                        {% endif %}
+                    >
+                        Closed
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PRIORITY -->
+
+            <div
+                style="
+                margin-bottom:18px;
+                "
+            >
+
+                <label
+                    for="priority"
+                    style="
+                    display:block;
+                    margin-bottom:7px;
+                    font-weight:600;
+                    "
+                >
+
+                    Priority
+
+                </label>
+
+
+                <select
+                    id="priority"
+                    name="priority"
+                    required
+                    style="
+                    width:100%;
+                    padding:12px;
+                    border:1px solid #d5dbe7;
+                    border-radius:8px;
+                    "
+                >
+
+                    <option
+                        value="Low"
+                        {% if ticket.priority == "Low" %}
+                        selected
+                        {% endif %}
+                    >
+                        Low
+                    </option>
+
+
+                    <option
+                        value="Medium"
+                        {% if ticket.priority == "Medium" %}
+                        selected
+                        {% endif %}
+                    >
+                        Medium
+                    </option>
+
+
+                    <option
+                        value="High"
+                        {% if ticket.priority == "High" %}
+                        selected
+                        {% endif %}
+                    >
+                        High
+                    </option>
+
+
+                    <option
+                        value="Critical"
+                        {% if ticket.priority == "Critical" %}
+                        selected
+                        {% endif %}
+                    >
+                        Critical
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- REMARKS -->
+
+            <div
+                style="
+                margin-bottom:18px;
+                "
+            >
+
+                <label
+                    for="remarks"
+                    style="
+                    display:block;
+                    margin-bottom:7px;
+                    font-weight:600;
+                    "
+                >
+
+                    Remarks
+
+                </label>
+
+
+                <textarea
+                    id="remarks"
+                    name="remarks"
+                    rows="5"
+                    placeholder="Enter update remarks..."
+                    style="
+                    width:100%;
+                    padding:12px;
+                    border:1px solid #d5dbe7;
+                    border-radius:8px;
+                    resize:vertical;
+                    "
+                ></textarea>
+
+            </div>
+
+
+            <div
+                style="
+                display:flex;
+                gap:10px;
+                "
+            >
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+
+                    💾 Update Ticket
+
+                </button>
+
+
+                <a
+                    href="{{ url_for('all_tickets') }}"
+                    class="btn"
+                >
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- TICKET HISTORY -->
+<!-- ===================================================== -->
+
+<div
+    class="table-card"
+    style="margin-top:24px;"
+>
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Ticket History
+            </h2>
+
+            <p>
+                Previous status changes for this ticket.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if history %}
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        History ID
+                    </th>
+
+                    <th>
+                        Old Status
+                    </th>
+
+                    <th>
+                        New Status
+                    </th>
+
+                    <th>
+                        Changed By
+                    </th>
+
+                    <th>
+                        Remarks
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in history %}
+
+                <tr>
+
+                    <td>
+                        #{{ item.history_id }}
+                    </td>
+
+                    <td>
+                        {{ item.old_status or "—" }}
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="badge status-{{ item.new_status|lower|replace(' ', '-') }}"
+                        >
+
+                            {{ item.new_status }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+                        {{ item.changed_by_name }}
+                    </td>
+
+                    <td>
+                        {{ item.remarks or "—" }}
+                    </td>
+
+                    <td>
+                        {{ item.changed_at }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div>
+            📜
+        </div>
+
+        <h3>
+            No history available
+        </h3>
+
+        <p>
+            This ticket has no status history yet.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+{% endblock %}

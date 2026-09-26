@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}
+AI Assistant
+{% endblock %}
+
+{% block page_heading %}
+AI Support Assistant
+{% endblock %}
+
+{% block content %}
+
+<div class="chat-page">
+
+    <div class="chat-card">
+
+        <div class="chat-header">
+
+            <div class="chat-avatar">
+                🤖
+            </div>
+
+            <div>
+
+                <h2>
+                    AI Support Assistant
+                </h2>
+
+                <p>
+                    Ask questions about tickets and support.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="chat-intro">
+
+            <h3>
+                How can I help you?
+            </h3>
+
+            <p>
+                You can ask about ticket creation,
+                ticket status, category, priority or login.
+            </p>
+
+        </div>
+
+
+        {% if answer %}
+
+        <div class="bot-message">
+
+            <div class="message-icon">
+                🤖
+            </div>
+
+            <div>
+
+                <strong>
+                    AI Assistant
+                </strong>
+
+                <p>
+                    {{ answer }}
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            <div class="chat-input">
+
+                <input
+                    type="text"
+                    name="question"
+                    value="{{ question }}"
+                    placeholder="Ask something..."
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Send
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <div class="suggestions">
+
+            <span>
+                Try:
+            </span>
+
+            <button
+                type="button"
+                onclick="askQuestion('How can I create a ticket?')"
+            >
+                Create ticket
+            </button>
+
+            <button
+                type="button"
+                onclick="askQuestion('How can I check ticket status?')"
+            >
+                Ticket status
+            </button>
+
+            <button
+                type="button"
+                onclick="askQuestion('How does priority work?')"
+            >
+                Priority
+            </button>
+
+            <button
+                type="button"
+                onclick="askQuestion('How does category prediction work?')"
+            >
+                Category
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function askQuestion(question) {
+
+    document.querySelector(
+        'input[name="question"]'
+    ).value = question;
+
+}
+
+</script>
+
+{% endblock %}
